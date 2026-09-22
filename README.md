@@ -46,8 +46,8 @@ El sistema utiliza una arquitectura de tres capas:
 
 ## Integrantes
 
-- Nombre 1
-- Nombre 2
+- Juan Manuel Ramos Beltran
+- Deiby Alexander Villamizar Perdomo
 
 ## Estado
 
