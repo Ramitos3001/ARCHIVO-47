@@ -1,0 +1,616 @@
+/* =====================================================================
+   ARCHIVO 47 · Identidad visual base
+   Paleta, tipografías, papel, sellos, etiquetas, clips, sombras y
+   animaciones reutilizables. Todo con CSS/SVG, sin imágenes.
+   ===================================================================== */
+
+/* ---------- Tipografías (locales, funcionan sin internet) ---------- */
+@font-face {
+  font-family: 'A47 Serif';
+  src: url('../assets/fonts/LibreBaskerville-normal.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'A47 Serif';
+  src: url('../assets/fonts/LibreBaskerville-italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'A47 Maquina';
+  src: url('../assets/fonts/SpecialElite-normal-400.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'A47 Mano';
+  src: url('../assets/fonts/Caveat-normal-500.woff2') format('woff2');
+  font-weight: 400 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'A47 Mono';
+  src: url('../assets/fonts/IBMPlexMono-normal-400.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'A47 Mono';
+  src: url('../assets/fonts/IBMPlexMono-normal-600.woff2') format('woff2');
+  font-weight: 600;
+  font-display: swap;
+}
+
+/* ---------- Variables ---------- */
+:root {
+  /* Paleta: negro, grises, beige, papel envejecido, marrón; rojo solo como énfasis */
+  --negro: #0b0a09;
+  --carbon: #151310;
+  --gris-oscuro: #26231f;
+  --gris: #57524a;
+  --gris-claro: #8d877c;
+  --beige: #d8c7a0;
+  --papel: #e8dcc2;
+  --papel-claro: #f3ecdb;
+  --papel-sombra: #cdb98e;
+  --marron: #5e4027;
+  --marron-medio: #84603c;
+  --kraft: #b48c58;
+  --kraft-claro: #c7a26c;
+  --kraft-oscuro: #8f6c3d;
+  --tinta: #1f1b16;
+  --lapiz: #3a3630;
+  --rojo: #8b1e1e;
+  --rojo-vivo: #a92727;
+  --fosforo: #dccca6;
+  --fosforo-tenue: #8a8068;
+
+  /* Tipografías: seria, máquina de escribir, manuscrita, técnica */
+  --f-serif: 'A47 Serif', Georgia, 'Times New Roman', serif;
+  --f-maquina: 'A47 Maquina', 'Courier New', Courier, monospace;
+  --f-mano: 'A47 Mano', 'Segoe Print', 'Bradley Hand', cursive;
+  --f-mono: 'A47 Mono', Consolas, 'Lucida Console', monospace;
+
+  /* Sombras */
+  --sombra-hoja: 0 1px 1px rgba(0, 0, 0, .25), 0 6px 14px -4px rgba(0, 0, 0, .45);
+  --sombra-carpeta: 0 2px 2px rgba(0, 0, 0, .35), 0 18px 30px -12px rgba(0, 0, 0, .75);
+  --sombra-elevada: 0 34px 60px -18px rgba(0, 0, 0, .9), 0 10px 20px rgba(0, 0, 0, .45);
+  --desgaste-interior: inset 0 0 34px rgba(120, 85, 40, .3), inset 0 0 3px rgba(80, 55, 25, .45);
+
+  /* Curvas de movimiento: el papel acelera rápido y se asienta despacio */
+  --curva-papel: cubic-bezier(.2, .8, .25, 1);
+  --curva-golpe: cubic-bezier(.5, 0, .75, 0);
+
+  /* Texturas SVG (ruido de papel, fibras y desgaste de tinta para sellos) */
+  --ruido: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .22 0 0 0 0 .12 0 0 0 .5 -.1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --fibras: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.006 .32' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .25 0 0 0 0 .12 0 0 0 .4 -.14'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+  --ruido-sello: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -3 0 0 0 2.15'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)'/%3E%3C/svg%3E");
+  --svg-clip: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 70'%3E%3ClinearGradient id='g' x1='0' x2='1'%3E%3Cstop offset='0' stop-color='%23e4e4de'/%3E%3Cstop offset='.5' stop-color='%23878781'/%3E%3Cstop offset='1' stop-color='%23d2d2cb'/%3E%3C/linearGradient%3E%3Cpath d='M4 60V12a8 8 0 0 1 16 0v46a6 6 0 0 1-12 0V16a4 4 0 0 1 8 0v30' fill='none' stroke='url(%23g)' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E");
+
+  /* Capas base del papel (se combinan con manchas en .papel--manchado) */
+  --capas-papel:
+    radial-gradient(ellipse at 45% 35%, rgba(255, 251, 238, .55), transparent 70%),
+    linear-gradient(178deg, var(--papel-claro), var(--papel) 55%, var(--papel-sombra));
+}
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  background: var(--negro);
+  color-scheme: dark;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--negro);
+  color: var(--beige);
+  font-family: var(--f-serif);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img, svg { display: block; max-width: 100%; }
+button, input { font: inherit; color: inherit; }
+[hidden] { display: none !important; }
+
+:focus-visible {
+  outline: 2px dashed var(--rojo-vivo);
+  outline-offset: 3px;
+}
+
+.solo-lectores {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Utilidades tipográficas ---------- */
+.f-serif   { font-family: var(--f-serif); }
+.f-maquina { font-family: var(--f-maquina); }
+.f-mano    { font-family: var(--f-mano); }
+.f-mono    { font-family: var(--f-mono); }
+.mayus     { text-transform: uppercase; letter-spacing: .12em; }
+.rojo      { color: var(--rojo-vivo); }
+
+/* ---------- Papel ---------- */
+.papel {
+  position: relative;
+  color: var(--tinta);
+  background-color: var(--papel);
+  background-image: var(--ruido), var(--fibras), var(--capas-papel);
+  box-shadow: var(--sombra-hoja), var(--desgaste-interior);
+}
+
+/* Manchas de café y humedad */
+.papel--manchado {
+  background-image:
+    var(--ruido),
+    var(--fibras),
+    radial-gradient(circle at 86% 16%, transparent 0 40px, rgba(118, 78, 34, .2) 41px 44px, rgba(118, 78, 34, .07) 46px, transparent 54px),
+    radial-gradient(ellipse 140px 90px at 10% 92%, rgba(130, 92, 42, .2), transparent 70%),
+    radial-gradient(ellipse 60px 40px at 70% 78%, rgba(110, 80, 40, .1), transparent 70%),
+    var(--capas-papel);
+}
+
+/* Bordes irregulares. Recorta las sombras externas: poner la sombra en el
+   contenedor con .sombra-filtro */
+.bordes-gastados {
+  clip-path: polygon(
+    .4% .8%, 12% 0, 27% .6%, 41% .1%, 58% .7%, 73% 0, 88% .5%, 99.6% .2%,
+    100% 14%, 99.5% 31%, 100% 52%, 99.4% 70%, 100% 87%, 99.3% 99.5%,
+    84% 100%, 66% 99.3%, 49% 100%, 31% 99.4%, 15% 100%, .3% 99.2%,
+    0 82%, .6% 63%, 0 44%, .5% 25%);
+}
+
+.sombra-filtro {
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, .4)) drop-shadow(0 16px 20px rgba(0, 0, 0, .55));
+}
+
+/* Texto tachado con tinta (censurado) */
+.censurado {
+  background: var(--tinta);
+  color: transparent;
+  border-radius: 1px;
+  padding: 0 .2em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  user-select: none;
+}
+
+/* Renglón de formulario mecanografiado */
+.ficha-datos {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 7px 12px;
+  margin: 0;
+  font-family: var(--f-maquina);
+}
+.ficha-datos dt {
+  font-family: var(--f-mono);
+  font-size: .7rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--gris);
+  align-self: end;
+  white-space: nowrap;
+}
+.ficha-datos dd {
+  margin: 0;
+  padding-bottom: 1px;
+  border-bottom: 1px dotted rgba(31, 27, 22, .4);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Nota a mano */
+.nota-mano {
+  font-family: var(--f-mano);
+  color: var(--lapiz);
+  font-size: 1.3rem;
+  line-height: 1.1;
+}
+
+/* ---------- Sellos ---------- */
+.sello {
+  --color-sello: var(--rojo-vivo);
+  --giro-sello: -8deg;
+  display: inline-block;
+  padding: .38em .75em .3em;
+  font-family: var(--f-maquina);
+  font-size: 1rem;
+  line-height: 1;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--color-sello);
+  border: 3px solid currentColor;
+  outline: 1px solid currentColor;
+  outline-offset: 3px;
+  border-radius: 4px;
+  opacity: .82;
+  transform: rotate(var(--giro-sello));
+  mix-blend-mode: multiply;
+  -webkit-mask-image: var(--ruido-sello);
+  mask-image: var(--ruido-sello);
+  -webkit-mask-size: 160px;
+  mask-size: 160px;
+  user-select: none;
+  pointer-events: none;
+}
+.sello--confidencial { --giro-sello: -10deg; }
+.sello--abierto      { --giro-sello: 7deg; border-style: double; border-width: 5px; }
+.sello--tinta        { --color-sello: var(--tinta); }
+.sello--grande       { font-size: 1.6rem; }
+.sello--pequeno      { font-size: .72rem; border-width: 2px; outline-offset: 2px; }
+
+/* Sobre fondos oscuros el multiply desaparece: usar esta variante */
+.sello--sobre-oscuro { mix-blend-mode: normal; --color-sello: #c23a3a; opacity: .9; }
+
+.sello--estampar {
+  animation: estampar .42s var(--curva-golpe) both;
+  animation-delay: var(--retardo, 0s);
+}
+
+/* ---------- Etiquetas ---------- */
+.etiqueta {
+  display: inline-block;
+  padding: .32em .8em .26em;
+  font-family: var(--f-maquina);
+  font-size: .8rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--tinta);
+  background: var(--papel-claro) var(--ruido);
+  border: 1px solid rgba(60, 40, 20, .35);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+}
+.etiqueta--roja {
+  color: var(--papel-claro);
+  background-color: var(--rojo);
+  border-color: transparent;
+}
+/* Etiqueta colgante con perforación */
+.etiqueta--colgante {
+  position: relative;
+  padding-left: 1.9em;
+  clip-path: polygon(10px 0, 100% 0, 100% 100%, 10px 100%, 0 50%);
+}
+.etiqueta--colgante::before {
+  content: '';
+  position: absolute;
+  left: 12px; top: 50%;
+  width: 7px; height: 7px;
+  margin-top: -3.5px;
+  border-radius: 50%;
+  background: var(--gris-oscuro);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .6);
+}
+
+/* ---------- Clips, cinta y chinchetas ---------- */
+.clip {
+  position: absolute;
+  width: 20px;
+  height: 60px;
+  background: var(--svg-clip) no-repeat center / contain;
+  filter: drop-shadow(1px 2px 1px rgba(0, 0, 0, .45));
+  transform: rotate(var(--giro-clip, 4deg));
+  pointer-events: none;
+  z-index: 4;
+}
+
+.cinta {
+  position: absolute;
+  width: 96px;
+  height: 26px;
+  background-color: rgba(236, 226, 196, .58);
+  background-image: var(--ruido);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .18);
+  transform: rotate(var(--giro-cinta, -6deg));
+  clip-path: polygon(2% 0, 98% 4%, 100% 30%, 97% 55%, 100% 80%, 97% 100%, 3% 96%, 0 70%, 3% 45%, 0 20%);
+  pointer-events: none;
+  z-index: 4;
+}
+
+.chincheta {
+  position: absolute;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #d45656, var(--rojo) 55%, #4d0e0e);
+  box-shadow: 2px 3px 3px rgba(0, 0, 0, .5);
+  z-index: 4;
+}
+
+/* ---------- Botones ---------- */
+/* Terminal: texto de fósforo sobre negro */
+.boton-terminal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5em;
+  padding: .7em 1.4em;
+  font-family: var(--f-mono);
+  font-size: .85rem;
+  font-weight: 600;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--fosforo);
+  background: transparent;
+  border: 1px solid var(--fosforo-tenue);
+  cursor: pointer;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.boton-terminal:hover:not(:disabled) {
+  background: var(--fosforo);
+  color: var(--negro);
+  border-color: var(--fosforo);
+}
+.boton-terminal:disabled { opacity: .45; cursor: progress; }
+
+/* Sobre papel: tinta */
+.boton-tinta {
+  display: inline-flex;
+  align-items: center;
+  gap: .5em;
+  padding: .6em 1.2em .5em;
+  font-family: var(--f-maquina);
+  font-size: .9rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--tinta);
+  background: transparent;
+  border: 2px solid var(--tinta);
+  cursor: pointer;
+  transition: background .15s, color .15s, transform .1s;
+}
+.boton-tinta:hover:not(:disabled) { background: var(--tinta); color: var(--papel-claro); }
+.boton-tinta:active:not(:disabled) { transform: translateY(1px); }
+.boton-tinta:disabled { opacity: .5; cursor: progress; }
+.boton-tinta--rojo { color: var(--rojo); border-color: var(--rojo); }
+.boton-tinta--rojo:hover:not(:disabled) { background: var(--rojo); color: var(--papel-claro); }
+.boton-tinta--suave { border-color: transparent; text-decoration: underline; text-underline-offset: 4px; }
+
+/* Cursor de terminal */
+.cursor {
+  display: inline-block;
+  width: .6em;
+  height: 1.05em;
+  margin-left: .15em;
+  vertical-align: text-bottom;
+  background: currentColor;
+  animation: parpadeo 1s steps(1) infinite;
+}
+
+/* ---------- Barra del sistema ---------- */
+.barra-sistema {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  height: 46px;
+  padding: 0 20px;
+  font-family: var(--f-mono);
+  font-size: .72rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--fosforo);
+  background: rgba(9, 8, 7, .88);
+  border-bottom: 1px solid rgba(216, 199, 160, .14);
+  backdrop-filter: blur(4px);
+}
+.barra-sistema__marca {
+  font-family: var(--f-serif);
+  font-size: .95rem;
+  letter-spacing: .24em;
+  white-space: nowrap;
+}
+.barra-sistema__marca b { color: var(--rojo-vivo); font-weight: 700; }
+.barra-sistema__titulo {
+  color: var(--fosforo-tenue);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.barra-sistema__acciones { margin-left: auto; display: flex; gap: 6px; }
+.barra-sistema__boton {
+  padding: 6px 10px;
+  font-family: var(--f-mono);
+  font-size: .7rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--fosforo);
+  background: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.barra-sistema__boton:hover { border-color: var(--fosforo-tenue); }
+.barra-sistema__boton[aria-pressed='true'] { color: var(--negro); background: var(--fosforo); }
+
+@media (max-width: 560px) {
+  .barra-sistema { padding: 0 8px; gap: 8px; }
+  .barra-sistema__titulo { display: none; }
+  .barra-sistema__boton { padding: 6px 5px; letter-spacing: .04em; }
+}
+@media (max-width: 420px) {
+  .barra-sistema__marca { display: none; }
+}
+
+/* ---------- Avisos (tira de papel mecanografiada) ---------- */
+.aviso {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 80;
+  max-width: min(380px, calc(100vw - 32px));
+  padding: 12px 16px 10px 18px;
+  font-family: var(--f-maquina);
+  font-size: .88rem;
+  letter-spacing: .06em;
+  color: var(--tinta);
+  background: var(--papel-claro) var(--ruido);
+  border-left: 5px solid var(--tinta);
+  box-shadow: var(--sombra-carpeta);
+  transform: rotate(-1deg);
+  animation: aviso-entra .45s var(--curva-papel) both;
+}
+.aviso--alerta { border-left-color: var(--rojo-vivo); }
+.aviso--sale { animation: aviso-sale .4s ease-in forwards; }
+
+@media (max-width: 560px) {
+  .aviso { right: 16px; left: 16px; bottom: 16px; }
+}
+
+/* ---------- Mesa de trabajo (madera oscura bajo una lámpara) ---------- */
+.mesa {
+  color: var(--beige);
+  background-color: #1a120c;
+  background-image:
+    var(--ruido),
+    repeating-linear-gradient(91deg, rgba(0, 0, 0, .16) 0 2px, transparent 2px 11px),
+    repeating-linear-gradient(89deg, rgba(255, 220, 170, .025) 0 1px, transparent 1px 27px),
+    linear-gradient(180deg, #2a1d13 0%, #1c140d 55%, #110c08 100%);
+  background-attachment: fixed;
+}
+
+.mesa__luz {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 50% at 58% 22%, rgba(255, 210, 140, .17), transparent 70%),
+    radial-gradient(ellipse at 50% 40%, transparent 45%, rgba(0, 0, 0, .72) 100%);
+  animation: encender-lampara 1.6s linear both;
+}
+
+/* ---------- Salidas de pantalla ---------- */
+/* Monitor que se apaga (terminal) */
+.pantalla-apagandose {
+  overflow: hidden;
+  animation: apagar-crt .6s ease-in forwards;
+  pointer-events: none;
+}
+/* Se apaga la lámpara (mundo de papel) */
+.pantalla-fundiendose {
+  animation: fundir-negro .55s ease-in forwards;
+  pointer-events: none;
+}
+@keyframes fundir-negro {
+  to { opacity: 0; filter: brightness(.3); }
+}
+
+/* ---------- Animaciones reutilizables ---------- */
+/* Un sello golpea el papel */
+@keyframes estampar {
+  0%   { opacity: 0; transform: rotate(var(--giro-sello)) scale(2.6); }
+  70%  { opacity: .95; transform: rotate(var(--giro-sello)) scale(.94); }
+  100% { opacity: .82; transform: rotate(var(--giro-sello)) scale(1); }
+}
+
+/* Una hoja sale de la carpeta */
+@keyframes sacar-hoja {
+  from { opacity: 0; transform: translateY(40px) rotate(2.5deg) scale(.97); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Un objeto cae sobre la mesa y se asienta (usa --giro) */
+@keyframes colocar {
+  0%   { opacity: 0; transform: translateY(-36px) rotate(calc(var(--giro, 0deg) + 5deg)) scale(1.06); }
+  65%  { opacity: 1; transform: translateY(3px) rotate(var(--giro, 0deg)) scale(.995); }
+  100% { opacity: 1; transform: rotate(var(--giro, 0deg)); }
+}
+
+/* Una hoja se desliza sobre la mesa desde la izquierda */
+@keyframes deslizar-entrada {
+  from { opacity: 0; transform: translateX(-60px) rotate(-6deg); }
+  to   { opacity: 1; transform: rotate(var(--giro, 0deg)); }
+}
+
+/* Impresión: el papel sale de la ranura */
+@keyframes imprimir {
+  from { clip-path: inset(0 0 100% 0); transform: translateY(-18px); }
+  to   { clip-path: inset(0 0 0 0); transform: none; }
+}
+
+/* Error o acceso denegado */
+@keyframes temblor {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-7px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(2px); }
+}
+
+@keyframes parpadeo {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* Lámpara que se enciende con un par de titileos */
+@keyframes encender-lampara {
+  0%   { opacity: 0; }
+  8%   { opacity: .7; }
+  12%  { opacity: .1; }
+  20%  { opacity: .85; }
+  24%  { opacity: .3; }
+  40%  { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+/* Monitor de tubo que se enciende */
+@keyframes encender-crt {
+  0%   { opacity: 0; transform: scale(1, .004); filter: brightness(4); }
+  45%  { opacity: 1; transform: scale(1, .004); filter: brightness(4); }
+  70%  { transform: scale(1, 1.02); filter: brightness(1.6); }
+  100% { transform: none; filter: none; }
+}
+
+/* Monitor de tubo que se apaga */
+@keyframes apagar-crt {
+  0%   { transform: none; filter: none; }
+  55%  { transform: scale(1, .004); filter: brightness(5); }
+  100% { transform: scale(0, .004); filter: brightness(8); opacity: 0; }
+}
+
+/* Firma que se escribe de izquierda a derecha */
+@keyframes firmar {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes aviso-entra {
+  from { opacity: 0; transform: translateY(30px) rotate(3deg); }
+  to   { opacity: 1; transform: rotate(-1deg); }
+}
+@keyframes aviso-sale {
+  to { opacity: 0; transform: translateX(60px) rotate(4deg); }
+}
+
+/* Clases de animación con retardo configurable (--retardo) */
+.anim-sacar-hoja  { animation: sacar-hoja .55s var(--curva-papel) both; animation-delay: var(--retardo, 0s); }
+.anim-colocar     { animation: colocar .7s var(--curva-papel) both; animation-delay: var(--retardo, 0s); }
+.anim-deslizar    { animation: deslizar-entrada .8s var(--curva-papel) both; animation-delay: var(--retardo, 0s); }
+.anim-imprimir    { animation: imprimir 1.4s steps(14) both; animation-delay: var(--retardo, 0s); }
+.anim-temblor     { animation: temblor .42s ease-out; }
+
+/* ---------- Movimiento reducido ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+  .cursor { animation: none; }
+}

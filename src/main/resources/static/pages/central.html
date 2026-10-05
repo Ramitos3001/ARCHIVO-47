@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Archivo 47 · Central de investigación</title>
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/central.css">
+<script type="module" src="../js/central.js"></script>
+</head>
+<body class="mesa">
+<div class="mesa__luz" aria-hidden="true"></div>
+
+<nav id="barra"></nav>
+
+<main class="central">
+  <header class="central__cabecera">
+    <p class="central__turno">Central de investigación · Turno nocturno</p>
+    <h1 class="central__titulo">Expedientes asignados</h1>
+  </header>
+
+  <!-- Perfil del investigador -->
+  <aside class="credencial sombra-filtro" aria-label="Perfil del investigador">
+    <span class="clip credencial__clip"></span>
+    <div class="credencial__hoja papel papel--manchado bordes-gastados">
+      <p class="credencial__encabezado">Archivo 47 · Perfil del investigador</p>
+
+      <figure class="credencial__foto" aria-hidden="true">
+        <span class="cinta credencial__cinta"></span>
+        <svg viewBox="0 0 60 80">
+          <rect width="60" height="80" fill="#2c2823"/>
+          <circle cx="30" cy="30" r="13" fill="#4d463c"/>
+          <path d="M6 80c2-18 12-27 24-27s22 9 24 27z" fill="#4d463c"/>
+        </svg>
+      </figure>
+
+      <dl class="ficha-datos credencial__datos" id="datosInvestigador">
+        <dt>ID</dt><dd data-campo="id">…</dd>
+        <dt>Nombre</dt><dd data-campo="nombre">…</dd>
+        <dt>Casos resueltos</dt><dd data-campo="resueltos">…</dd>
+        <dt>Precisión</dt><dd data-campo="precision">…</dd>
+        <dt>Logros</dt><dd data-campo="logros">…</dd>
+        <dt>Investigaciones activas</dt><dd data-campo="activos">…</dd>
+      </dl>
+
+      <div class="distinciones">
+        <p class="distinciones__rotulo">Distinciones</p>
+        <div class="distinciones__lista" id="distinciones"></div>
+      </div>
+
+      <span class="sello sello--estampar credencial__sello" style="--retardo: 1.2s">Autorizado</span>
+      <p class="credencial__firma nota-mano" data-campo="firma"></p>
+      <p class="credencial__linea-firma">Firma del investigador</p>
+    </div>
+  </aside>
+
+  <!-- Expedientes -->
+  <section class="archivador" id="archivador" aria-label="Expedientes" aria-busy="true">
+    <p class="archivador__cargando">Recuperando expedientes<span class="cursor"></span></p>
+  </section>
+
+  <p class="nota-escritorio nota-mano" aria-hidden="true">Nadie dice toda la verdad.<br>Revisar las horas.</p>
+</main>
+
+<!-- Hoja que se saca al elegir un expediente -->
+<dialog id="solicitud" class="solicitud" aria-labelledby="solicitudTitulo">
+  <div class="solicitud__hoja papel papel--manchado" id="solicitudHoja"></div>
+</dialog>
+
+</body>
+</html>

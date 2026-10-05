@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Archivo 47 · Acceso restringido</title>
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/acceso.css">
+<script type="module" src="../js/acceso.js"></script>
+</head>
+<body class="terminal">
+
+<div class="terminal__marco" id="marco">
+  <header class="terminal__cabecera">
+    <span>A47-SYS // NODO 047</span>
+    <span id="reloj" aria-hidden="true"></span>
+  </header>
+
+  <main class="terminal__cuerpo">
+    <div id="arranque" class="terminal__arranque" aria-live="polite"></div>
+
+    <!-- Identificación y alta -->
+    <section id="panelAcceso" class="terminal__panel" hidden>
+      <h1 class="terminal__logo">ARCHIVO <b>47</b></h1>
+      <p class="terminal__sub">Sistema de investigadores</p>
+      <p class="terminal__restringido"><span class="terminal__led" aria-hidden="true"></span>Acceso restringido</p>
+
+      <form id="formLogin" class="terminal__form" novalidate>
+        <label class="campo-terminal">
+          <span class="campo-terminal__rotulo">[ Identificación ]</span>
+          <input id="loginCorreo" type="email" autocomplete="username" spellcheck="false" placeholder="correo del investigador">
+        </label>
+        <label class="campo-terminal">
+          <span class="campo-terminal__rotulo">[ Contraseña ]</span>
+          <input id="loginClave" type="password" autocomplete="current-password" placeholder="••••••">
+        </label>
+        <button class="boton-terminal" type="submit">[ Acceder ]</button>
+      </form>
+
+      <form id="formRegistro" class="terminal__form" novalidate hidden>
+        <p class="terminal__formulario">Solicitud de alta · Formulario A-01</p>
+        <label class="campo-terminal">
+          <span class="campo-terminal__rotulo">[ Nombre ]</span>
+          <input id="registroNombre" type="text" autocomplete="name" placeholder="nombre del investigador">
+        </label>
+        <label class="campo-terminal">
+          <span class="campo-terminal__rotulo">[ Identificación ]</span>
+          <input id="registroCorreo" type="email" autocomplete="email" spellcheck="false" placeholder="correo">
+        </label>
+        <label class="campo-terminal">
+          <span class="campo-terminal__rotulo">[ Contraseña ]</span>
+          <input id="registroClave" type="password" autocomplete="new-password" placeholder="mínimo 6 caracteres">
+        </label>
+        <button class="boton-terminal" type="submit">[ Solicitar alta ]</button>
+      </form>
+
+      <p id="mensajeError" class="terminal__error" role="alert"></p>
+
+      <p class="terminal__cambio">
+        <span id="textoCambio">¿Nuevo investigador?</span>
+        <button type="button" id="botonCambio" class="terminal__enlace">Registrarse</button>
+      </p>
+    </section>
+
+    <!-- Secuencia de autorización -->
+    <section id="panelAutorizacion" class="terminal__autorizacion" hidden aria-live="polite">
+      <div id="lineasAutorizacion" class="terminal__arranque"></div>
+      <p id="accesoAutorizado" class="terminal__autorizado" hidden>Acceso autorizado</p>
+      <p id="investigadorIdentificado" class="terminal__identificado"></p>
+      <p id="investigadorDatos" class="terminal__datos"></p>
+    </section>
+
+    <!-- Ficha impresa tras el registro -->
+    <div id="ranura" class="terminal__ranura" hidden>
+      <article id="fichaAlta" class="ficha-alta papel papel--manchado">
+        <p class="ficha-alta__cabecera">Archivo 47 · Registro de personal</p>
+        <h2 class="ficha-alta__titulo">Investigador registrado</h2>
+        <dl class="ficha-datos">
+          <dt>ID</dt><dd id="altaId" class="ficha-alta__id"></dd>
+          <dt>Nombre</dt><dd id="altaNombre"></dd>
+          <dt>Estado</dt><dd>AUTORIZADO</dd>
+          <dt>Casos resueltos</dt><dd>0</dd>
+          <dt>Investigaciones activas</dt><dd>0</dd>
+        </dl>
+        <span class="sello sello--abierto sello--estampar ficha-alta__sello" style="--retardo: 1.7s">Autorizado</span>
+        <p class="ficha-alta__nota nota-mano">Bienvenido al archivo.</p>
+        <button type="button" id="botonCentral" class="boton-tinta">Presentarse en la central →</button>
+      </article>
+    </div>
+  </main>
+
+  <footer class="terminal__pie">
+    <span>Seguridad: nivel 4 · Conexión cifrada</span>
+    <button type="button" id="botonSonido" class="terminal__enlace"></button>
+  </footer>
+</div>
+
+</body>
+</html>

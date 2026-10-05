@@ -1,0 +1,477 @@
+/* ARCHIVO 47 · Central de investigación (mesa con expedientes) */
+
+.central {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  grid-template-areas:
+    'cabecera cabecera'
+    'credencial archivador';
+  gap: 36px 48px;
+  max-width: 1220px;
+  margin: 0 auto;
+  padding: 84px 28px 80px;
+}
+
+.central__cabecera { grid-area: cabecera; }
+.central__turno {
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: .72rem;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--fosforo-tenue);
+}
+.central__titulo {
+  margin: 4px 0 0;
+  font-family: var(--f-serif);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 4vw, 2.3rem);
+  letter-spacing: .04em;
+  color: var(--papel-claro);
+}
+
+/* ---------- Credencial del investigador ---------- */
+.credencial {
+  --giro: -1.6deg;
+  grid-area: credencial;
+  position: relative;
+  align-self: start;
+  animation: deslizar-entrada .9s var(--curva-papel) .25s both;
+}
+.credencial__clip { top: -16px; left: 34px; --giro-clip: -6deg; }
+.credencial__hoja { padding: 30px 22px 26px; }
+.credencial__encabezado {
+  margin: 0 0 16px;
+  padding-bottom: 8px;
+  font-family: var(--f-mono);
+  font-size: .64rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--gris);
+  border-bottom: 2px solid var(--tinta);
+}
+.credencial__foto {
+  position: relative;
+  float: right;
+  width: 84px;
+  margin: 0 0 12px 14px;
+  padding: 5px 5px 16px;
+  background: #f4efe2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .35);
+  transform: rotate(3deg);
+}
+.credencial__foto svg { filter: contrast(1.1) sepia(.3); }
+.credencial__cinta { top: -12px; left: 8px; width: 64px; height: 20px; --giro-cinta: -8deg; }
+.credencial__datos { clear: both; }
+.credencial__sello {
+  position: absolute;
+  right: 18px;
+  bottom: 52px;
+  --giro-sello: -12deg;
+  font-size: .85rem;
+}
+.credencial__firma {
+  min-height: 1.4em;
+  margin: 22px 0 0;
+  font-size: 1.7rem;
+  transform: rotate(-3deg);
+  transform-origin: left;
+}
+.credencial__firma.firmando { animation: firmar 1s ease-out both; }
+.credencial__linea-firma {
+  margin: 0;
+  padding-top: 2px;
+  width: 70%;
+  font-family: var(--f-mono);
+  font-size: .58rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--gris);
+  border-top: 1px solid var(--tinta);
+}
+
+/* Distinciones (logros) */
+.distinciones { margin-top: 16px; }
+.distinciones__rotulo {
+  margin: 0 0 6px;
+  font-family: var(--f-mono);
+  font-size: .62rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gris);
+}
+.distinciones__lista { display: flex; flex-wrap: wrap; gap: 8px; }
+.medalla {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  font-family: var(--f-mono);
+  font-size: .8rem;
+  color: rgba(31, 27, 22, .45);
+  background: transparent;
+  border: 1.5px dashed rgba(31, 27, 22, .35);
+  border-radius: 50%;
+  cursor: pointer;
+}
+.medalla--obtenida {
+  color: #5a3d10;
+  background: radial-gradient(circle at 35% 30%, #f2d58a, #c79a3e 55%, #8a6420);
+  border: 1.5px solid #6e4e18;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, .35), inset 0 0 0 3px rgba(255, 240, 200, .35);
+}
+
+/* ---------- Expedientes (carpetas) ---------- */
+.archivador {
+  grid-area: archivador;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 54px 34px;
+  align-content: start;
+  padding-top: 26px;
+}
+.archivador__cargando,
+.archivador__vacio {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-family: var(--f-mono);
+  font-size: .8rem;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--fosforo-tenue);
+}
+.archivador__vacio { display: grid; gap: 14px; justify-items: start; }
+
+.carpeta {
+  position: relative;
+  transform: rotate(var(--giro, 0deg));
+  animation: colocar .75s var(--curva-papel) both;
+  animation-delay: calc(var(--i, 0) * 150ms + 450ms);
+}
+
+.carpeta__boton {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  text-align: left;
+  color: var(--tinta);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.carpeta__boton.anim-temblor { animation: temblor .42s ease-out; }
+
+/* Pestaña */
+.carpeta__pestana {
+  position: absolute;
+  top: -21px;
+  left: 16px;
+  z-index: 1;
+  height: 24px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  font-family: var(--f-mono);
+  font-size: .66rem;
+  font-weight: 600;
+  letter-spacing: .16em;
+  color: var(--marron);
+  background: var(--kraft-claro) var(--ruido);
+  border-radius: 7px 7px 0 0;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25);
+}
+
+/* Hoja que asoma por arriba */
+.carpeta__hoja {
+  position: absolute;
+  top: -12px;
+  left: 42%;
+  right: 10px;
+  z-index: 1;
+  height: 60%;
+  background: var(--papel) var(--ruido);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+  transform: rotate(-2.5deg);
+  transition: transform .35s var(--curva-papel);
+}
+.carpeta__hoja::before {
+  content: '';
+  position: absolute;
+  inset: 10px 14px auto 14px;
+  height: 22px;
+  background: repeating-linear-gradient(180deg, rgba(31, 27, 22, .35) 0 1px, transparent 1px 6px);
+}
+
+/* Tapa */
+.carpeta__tapa {
+  position: relative;
+  z-index: 2;
+  display: block;
+  min-height: 218px;
+  padding: 24px 18px 18px;
+  border-radius: 3px 9px 6px 6px;
+  background-color: var(--kraft);
+  background-image:
+    var(--ruido),
+    var(--fibras),
+    radial-gradient(ellipse 90px 60px at 85% 85%, rgba(80, 50, 20, .18), transparent 70%),
+    linear-gradient(168deg, var(--kraft-claro), var(--kraft) 45%, var(--kraft-oscuro));
+  box-shadow: var(--sombra-carpeta), inset 0 0 0 1px rgba(60, 40, 20, .25), inset 0 -14px 30px rgba(70, 45, 20, .25);
+  transition: transform .35s var(--curva-papel), box-shadow .35s var(--curva-papel), filter .35s;
+}
+
+.carpeta__boton:hover .carpeta__tapa,
+.carpeta__boton:focus-visible .carpeta__tapa {
+  transform: translateY(-7px) rotate(-.6deg);
+  box-shadow: var(--sombra-elevada), inset 0 0 0 1px rgba(60, 40, 20, .25), inset 0 -14px 30px rgba(70, 45, 20, .25);
+}
+.carpeta__boton:hover .carpeta__hoja,
+.carpeta__boton:focus-visible .carpeta__hoja {
+  transform: translateY(-16px) rotate(-4deg);
+}
+
+/* Etiqueta pegada en la tapa */
+.carpeta__etiqueta {
+  display: block;
+  padding: 10px 12px 9px;
+  background: var(--papel-claro) var(--ruido);
+  border-left: 4px solid var(--rojo);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .35);
+  transform: rotate(-.8deg);
+}
+.carpeta__referencia {
+  display: block;
+  font-family: var(--f-mono);
+  font-size: .62rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--gris);
+}
+.carpeta__titulo {
+  display: block;
+  margin: 4px 0 3px;
+  font-family: var(--f-maquina);
+  font-size: 1.12rem;
+  letter-spacing: .06em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+.carpeta__clasificacion {
+  display: block;
+  font-family: var(--f-mono);
+  font-size: .64rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--marron);
+}
+
+.carpeta__sello {
+  position: absolute;
+  right: 14px;
+  bottom: 22px;
+  font-size: .82rem;
+}
+.carpeta__nota {
+  position: absolute;
+  left: 18px;
+  bottom: 12px;
+  max-width: 55%;
+  font-size: 1.2rem;
+  transform: rotate(-3deg);
+}
+
+/* El expediente elegido se acerca al centro mientras la mesa se oscurece */
+.carpeta--acercandose {
+  z-index: 70;
+  animation: acercarse .9s cubic-bezier(.5, 0, .2, 1) forwards;
+}
+.carpeta--acercandose .carpeta__tapa { box-shadow: var(--sombra-elevada); }
+@keyframes acercarse {
+  from { transform: rotate(var(--giro, 0deg)); filter: none; }
+  to   { transform: translate(var(--dx), var(--dy)) scale(1.55) rotate(0deg); filter: brightness(.75); }
+}
+.central__fundido {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  background: #000;
+  opacity: 0;
+  animation: oscurecer .75s .3s ease-in forwards;
+}
+@keyframes oscurecer { to { opacity: 1; } }
+
+/* Estado: bloqueado */
+.carpeta--bloqueado .carpeta__boton { cursor: not-allowed; }
+.carpeta--bloqueado .carpeta__tapa { filter: grayscale(.65) brightness(.55); }
+.carpeta--bloqueado .carpeta__hoja { display: none; }
+.carpeta--bloqueado .carpeta__boton:hover .carpeta__tapa { transform: translateY(-2px); }
+.carpeta__precinto {
+  position: absolute;
+  left: -10px;
+  right: -10px;
+  top: 47%;
+  z-index: 3;
+  height: 26px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  font-family: var(--f-mono);
+  font-size: .62rem;
+  font-weight: 600;
+  letter-spacing: .2em;
+  white-space: nowrap;
+  text-transform: uppercase;
+  color: var(--rojo);
+  background: var(--papel) var(--ruido);
+  border-top: 3px solid var(--rojo);
+  border-bottom: 3px solid var(--rojo);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
+  transform: rotate(-9deg);
+  pointer-events: none;
+}
+.carpeta--bloqueado .carpeta__nota { color: var(--papel-claro); opacity: .8; }
+
+/* Estado: en investigación */
+.carpeta__clip { top: -24px; right: 34px; --giro-clip: 8deg; z-index: 5; }
+
+/* Estado: completado */
+.carpeta--completado .carpeta__tapa { filter: sepia(.2) brightness(.86); }
+.carpeta--completado .carpeta__hoja { display: none; }
+
+/* ---------- Nota en la mesa ---------- */
+.nota-escritorio {
+  position: absolute;
+  right: 40px;
+  bottom: 18px;
+  margin: 0;
+  padding: 14px 18px;
+  font-size: 1.25rem;
+  color: var(--lapiz);
+  background: #e0d29c var(--ruido);
+  box-shadow: 0 8px 14px -6px rgba(0, 0, 0, .6);
+  transform: rotate(3deg);
+  animation: colocar .7s var(--curva-papel) 1.3s both;
+  --giro: 3deg;
+}
+
+/* ---------- Hoja de solicitud (diálogo) ---------- */
+.solicitud {
+  width: min(560px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  padding: 0;
+  overflow: visible;
+  color: var(--tinta);
+  background: none;
+  border: 0;
+}
+.solicitud::backdrop {
+  background: rgba(5, 4, 3, .74);
+  backdrop-filter: blur(2px);
+}
+.solicitud[open] .solicitud__hoja { animation: sacar-hoja .5s var(--curva-papel) both; }
+
+.solicitud__hoja {
+  max-height: calc(100vh - 32px);
+  overflow: auto;
+  padding: 30px 32px 26px;
+}
+.solicitud__formulario {
+  margin: 0;
+  padding-bottom: 8px;
+  font-family: var(--f-mono);
+  font-size: .64rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--gris);
+  border-bottom: 2px solid var(--tinta);
+}
+.solicitud__numero {
+  margin: 18px 0 2px;
+  font-family: var(--f-serif);
+  font-weight: 400;
+  font-size: 1.5rem;
+}
+.solicitud__titulo {
+  margin: 0 0 18px;
+  font-family: var(--f-maquina);
+  font-size: 1.2rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.solicitud__sello {
+  position: absolute;
+  top: 54px;
+  right: 30px;
+}
+.solicitud__resumen {
+  margin: 18px 0 0;
+  font-family: var(--f-maquina);
+  font-size: .95rem;
+  line-height: 1.6;
+}
+.solicitud__firma {
+  display: grid;
+  gap: 2px;
+  width: min(260px, 70%);
+  margin-top: 24px;
+}
+.solicitud__firma .firma {
+  min-height: 2.4rem;
+  font-family: var(--f-mano);
+  font-size: 2rem;
+  line-height: 1.2;
+  color: var(--lapiz);
+}
+.solicitud__firma .firma.firmando { animation: firmar .9s ease-out both; }
+.solicitud__firma .rotulo {
+  padding-top: 2px;
+  font-family: var(--f-mono);
+  font-size: .58rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--gris);
+  border-top: 1px solid var(--tinta);
+}
+.solicitud__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 26px;
+}
+.solicitud__resultado {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  translate: -50% -50%;
+  --giro-sello: -12deg;
+}
+.solicitud__aviso {
+  margin: 18px 0 0;
+  font-size: 1.25rem;
+  transform: rotate(-1.5deg);
+}
+
+/* ---------- Pantallas pequeñas ---------- */
+@media (max-width: 860px) {
+  .central {
+    grid-template-columns: 1fr;
+    grid-template-areas: 'cabecera' 'credencial' 'archivador';
+    padding: 70px 16px 48px;
+    gap: 32px;
+  }
+  .credencial { max-width: 380px; }
+  .nota-escritorio { display: none; }
+}
+
+@media (max-width: 560px) {
+  .solicitud__hoja { padding: 24px 18px 20px; }
+  .solicitud__sello { top: 14px; right: 12px; font-size: .75rem; }
+  .solicitud__acciones { justify-content: stretch; }
+  .solicitud__acciones .boton-tinta { flex: 1; justify-content: center; }
+}

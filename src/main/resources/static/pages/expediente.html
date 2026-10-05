@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Archivo 47 · Expediente</title>
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/hojeador.css">
+<link rel="stylesheet" href="../css/expediente.css">
+<link rel="stylesheet" href="../css/secciones.css">
+<link rel="stylesheet" href="../css/investigacion.css">
+<link rel="stylesheet" href="../css/cierre.css">
+<script type="module" src="../js/expediente.js"></script>
+</head>
+<body class="mesa">
+<!-- Grano fotográfico y viñeta para las fotos dibujadas en SVG -->
+<svg width="0" height="0" style="position: absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="grano" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/>
+      <feColorMatrix values="0 0 0 0 .25  0 0 0 0 .2  0 0 0 0 .12  0 0 0 .7 -.15"/>
+    </filter>
+    <radialGradient id="vineta" cx="50%" cy="50%" r="72%">
+      <stop offset="55%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity=".55"/>
+    </radialGradient>
+  </defs>
+</svg>
+
+<div class="mesa__luz mesa__luz--apagada" id="luz" aria-hidden="true"></div>
+
+<nav id="barra"></nav>
+
+<!-- Pantalla oscura: carga, introducción cinematográfica o fallo -->
+<div class="intro" id="intro">
+  <p class="intro__cargando">Recuperando expediente<span class="cursor"></span></p>
+</div>
+
+<main class="expediente">
+  <div class="mesa-expediente" id="mesaExpediente">
+    <!-- Carpeta: la tapa gira sobre el lomo y descubre las hojas -->
+    <div class="carpeta-abierta carpeta-abierta--cerrada carpeta-abierta--oculta" id="carpeta">
+      <div class="lado-derecho">
+        <div class="carpeta-abierta__fondo" aria-hidden="true"></div>
+        <div id="hojas"></div>
+        <div class="tapa" id="tapa"></div>
+      </div>
+    </div>
+
+    <nav class="separadores" id="separadores" aria-label="Secciones del expediente"></nav>
+  </div>
+
+  <nav class="control-folios" id="controlFolios" aria-label="Pasar páginas">
+    <button type="button" class="control-folios__boton" data-control="anterior">‹ Anterior</button>
+    <p class="control-folios__estado" aria-live="polite">
+      <span id="folioActual"></span>
+      <span id="folioTitulo" class="control-folios__titulo"></span>
+    </p>
+    <button type="button" class="control-folios__boton" data-control="siguiente">Siguiente ›</button>
+  </nav>
+</main>
+
+</body>
+</html>

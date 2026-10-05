@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARCHIVO 47 - Panel de pruebas</title>
+<style>
+  body { font-family: system-ui, sans-serif; background:#0f1115; color:#e6e6e6; margin:0; padding:24px; }
+  h1 { letter-spacing:2px; } h1 span { color:#e0a526; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:16px; max-width:960px; margin-bottom:16px; }
+  .card { background:#181b22; border:1px solid #2a2f3a; border-radius:10px; padding:16px; }
+  input { width:100%; box-sizing:border-box; margin:6px 0; padding:9px; border-radius:6px; border:1px solid #333a47; background:#0f1115; color:#e6e6e6; }
+  button { padding:8px 12px; border:0; border-radius:6px; background:#e0a526; color:#111; font-weight:600; cursor:pointer; margin:4px 4px 0 0; }
+  button.sec { background:#2a2f3a; color:#e6e6e6; }
+  pre { background:#0b0d11; border:1px solid #2a2f3a; border-radius:8px; padding:12px; max-width:960px; overflow:auto; min-height:80px; max-height:420px; }
+</style>
+</head>
+<body>
+<h1>ARCHIVO <span>47</span></h1>
+
+<div class="grid">
+  <div class="card">
+    <h3>Registro</h3>
+    <input id="rNombre" placeholder="Nombre">
+    <input id="rCorreo" placeholder="Correo">
+    <input id="rClave" type="password" placeholder="Contraseña (mín. 6)">
+    <button onclick="registrar()">Crear cuenta</button>
+  </div>
+  <div class="card">
+    <h3>Iniciar sesión</h3>
+    <input id="lCorreo" placeholder="Correo">
+    <input id="lClave" type="password" placeholder="Contraseña">
+    <button onclick="login()">Entrar</button>
+    <button class="sec" onclick="llamar('/api/auth/me')">¿Quién soy?</button>
+    <button class="sec" onclick="logout()">Salir</button>
+  </div>
+</div>
+
+<div class="card" style="max-width:960px;margin-bottom:16px">
+  <h3>Casos e investigación</h3>
+  <button onclick="llamar('/api/casos')">Ver casos</button>
+  <button class="sec" onclick="llamar('/api/partidas/mias')">Mis investigaciones</button>
+  <hr style="border-color:#2a2f3a">
+  <input id="idCaso" placeholder="ID del caso (ej. 1)" style="max-width:220px">
+  <button onclick="iniciar()">Iniciar / continuar investigación</button>
+  <div>
+    <button class="sec" onclick="exp('sospechosos')">Sospechosos</button>
+    <button class="sec" onclick="exp('evidencias')">Evidencias</button>
+    <button class="sec" onclick="exp('documentos')">Documentos</button>
+    <button class="sec" onclick="exp('mensajes')">Mensajes</button>
+    <button class="sec" onclick="exp('llamadas')">Llamadas</button>
+    <button class="sec" onclick="exp('ubicaciones')">Ubicaciones</button>
+    <button class="sec" onclick="exp('declaraciones')">Declaraciones</button>
+    <button class="sec" onclick="exp('linea-tiempo')">Línea temporal</button>
+  </div>
+  <hr style="border-color:#2a2f3a">
+  <input id="idPartida" placeholder="ID de la partida (ej. 1)" style="max-width:220px">
+  <button class="sec" onclick="llamar('/api/partidas/' + idPartida.value + '/progreso')">Ver progreso</button>
+  <button class="sec" onclick="partida('puntaje')">Puntaje</button>
+</div>
+
+<div class="card" style="max-width:960px;margin-bottom:16px">
+  <h3>Pistas y acertijos (usan el ID de partida)</h3>
+  <button class="sec" onclick="partida('pistas')">Ver pistas</button>
+  <button onclick="enviar('/api/partidas/' + idPartida.value + '/pistas/usar', { method:'POST' })">Pedir siguiente pista</button>
+  <button class="sec" onclick="partida('evidencias')">Evidencias desbloqueadas</button>
+  <hr style="border-color:#2a2f3a">
+  <button class="sec" onclick="partida('acertijos')">Ver acertijos</button>
+  <input id="idAcertijo" placeholder="ID del acertijo" style="max-width:160px">
+  <input id="respAcertijo" placeholder="Tu respuesta" style="max-width:280px">
+  <button onclick="responder()">Responder</button>
+</div>
+
+<div class="card" style="max-width:960px;margin-bottom:16px">
+  <h3>Teoría final, logros y ranking</h3>
+  <input id="tSospechoso" placeholder="ID del sospechoso" style="max-width:160px">
+  <input id="tEvidencia" placeholder="ID evidencia clave (opcional)" style="max-width:220px">
+  <input id="tMovil" placeholder="Móvil (opcional)" style="max-width:280px">
+  <button class="sec" onclick="partida('teoria/requisitos')">¿Puedo presentar?</button>
+  <button onclick="teoria()">Presentar teoría</button>
+  <button class="sec" onclick="partida('teorias')">Mis intentos</button>
+  <button class="sec" onclick="partida('solucion')">Ver solución</button>
+  <hr style="border-color:#2a2f3a">
+  <button class="sec" onclick="llamar('/api/logros')">Catálogo de logros</button>
+  <button class="sec" onclick="llamar('/api/logros/mios')">Mis logros</button>
+  <button class="sec" onclick="llamar('/api/ranking')">Ranking</button>
+</div>
+
+<pre id="salida">Aquí aparece la respuesta del servidor...</pre>
+
+<script>
+const salida = document.getElementById('salida');
+async function enviar(url, opciones) {
+  try {
+    const r = await fetch(url, opciones);
+    const texto = await r.text();
+    let cuerpo = texto;
+    try { cuerpo = JSON.stringify(JSON.parse(texto), null, 2); } catch (e) {}
+    salida.textContent = r.status + ' ' + r.statusText + '\n\n' + cuerpo;
+  } catch (e) { salida.textContent = 'Error de red: ' + e; }
+}
+const json = (o) => ({ method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(o) });
+function registrar() { enviar('/api/auth/registro', json({ nombre: rNombre.value, correo: rCorreo.value, contrasena: rClave.value })); }
+function login() { enviar('/api/auth/login', json({ correo: lCorreo.value, contrasena: lClave.value })); }
+function logout() { enviar('/api/auth/logout', { method:'POST' }); }
+function llamar(url) { enviar(url); }
+function iniciar() { enviar('/api/partidas/iniciar/' + idCaso.value, { method:'POST' }); }
+function exp(parte) { enviar('/api/casos/' + idCaso.value + '/expediente/' + parte); }
+function partida(parte) { enviar('/api/partidas/' + idPartida.value + '/' + parte); }
+function responder() { enviar('/api/partidas/' + idPartida.value + '/acertijos/' + idAcertijo.value + '/responder', json({ respuesta: respAcertijo.value })); }
+function teoria() {
+  enviar('/api/partidas/' + idPartida.value + '/teoria', json({
+    idSospechoso: Number(tSospechoso.value) || null,
+    idEvidenciaClave: Number(tEvidencia.value) || null,
+    movil: tMovil.value || null
+  }));
+}
+</script>
+</body>
+</html>

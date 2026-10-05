@@ -1,0 +1,333 @@
+/* ARCHIVO 47 · Teoría del caso, presentación, resultado, logros y progreso (fases 20-22) */
+
+/* ===================== Progreso discreto ===================== */
+.progreso {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 10px;
+  font-family: var(--f-mono);
+  font-size: .6rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gris);
+}
+.progreso__barra { letter-spacing: 0; color: var(--tinta); font-size: .7rem; }
+.progreso__barra span { color: rgba(31, 27, 22, .3); }
+.progreso__cifra { font-weight: 600; color: var(--tinta); }
+.tapa__progreso {
+  padding: 8px 10px;
+  background: rgba(243, 236, 219, .55);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .25);
+  transform: rotate(-.6deg);
+}
+.teoria__progreso { margin: -8px 0 16px; }
+
+/* ===================== Teoría del caso ===================== */
+.teoria__bloqueo {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+  margin-bottom: 16px;
+  padding: 10px 14px;
+  font-family: var(--f-maquina);
+  font-size: .9rem;
+  background: rgba(169, 39, 39, .08);
+  border-left: 4px solid var(--rojo);
+}
+.teoria__bloqueo p { margin: 0; }
+.teoria__bloqueo .boton-tinta { font-size: .72rem; padding: .3em .6em; }
+
+.teoria { display: grid; gap: 16px; }
+.teoria__grupo { margin: 0; padding: 0; border: 0; }
+.teoria__grupo legend,
+.teoria__rotulo {
+  margin-bottom: 8px;
+  padding: 0;
+  font-family: var(--f-maquina);
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.teoria__sospechosos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+  gap: 10px;
+}
+.teoria__sospechoso {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  padding: 6px 6px 8px;
+  background: #f4efe2;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .25);
+  cursor: pointer;
+  transition: transform .2s var(--curva-papel), box-shadow .2s;
+}
+.teoria__sospechoso input { position: absolute; opacity: 0; pointer-events: none; }
+.teoria__sospechoso:hover { transform: translateY(-3px); }
+.teoria__sospechoso:has(input:focus-visible) { outline: 2px dashed var(--rojo-vivo); outline-offset: 3px; }
+/* El elegido queda rodeado con un círculo rojo */
+.teoria__sospechoso:has(input:checked) {
+  box-shadow: 0 0 0 3px var(--rojo-vivo), 0 6px 12px rgba(0, 0, 0, .3);
+  transform: rotate(-1.5deg);
+}
+.teoria__sospechoso:has(input:checked)::after {
+  content: 'Responsable';
+  position: absolute;
+  top: 34%;
+  left: 50%;
+  translate: -50% 0;
+  rotate: -14deg;
+  padding: 2px 5px;
+  font-family: var(--f-maquina);
+  font-size: .6rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--rojo-vivo);
+  border: 2px solid currentColor;
+  background: rgba(244, 239, 226, .8);
+}
+.teoria__retrato .retrato { display: block; }
+.teoria__nombre { font-family: var(--f-maquina); font-size: .74rem; line-height: 1.15; text-transform: uppercase; }
+
+.teoria__texto {
+  width: 100%;
+  min-height: 120px;
+  padding: 10px 12px;
+  font-family: var(--f-maquina);
+  font-size: .95rem;
+  line-height: 1.6;
+  color: var(--tinta);
+  background: rgba(255, 255, 255, .4) repeating-linear-gradient(180deg, transparent 0 25px, rgba(31, 27, 22, .12) 25px 26px);
+  background-attachment: local;
+  border: 1px solid rgba(31, 27, 22, .3);
+  border-radius: 0;
+  resize: vertical;
+}
+.teoria__texto:focus { outline: none; border-color: var(--tinta); }
+
+.teoria__ayuda { margin: 0 0 8px; font-size: .86rem; color: var(--lapiz); }
+.teoria__evidencia {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 4px;
+  border-bottom: 1px dotted rgba(31, 27, 22, .3);
+}
+.teoria__apoyo { display: flex; align-items: center; gap: 8px; font-family: var(--f-maquina); font-size: .9rem; cursor: pointer; }
+.teoria__clave {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: none;
+  font-family: var(--f-mono);
+  font-size: .6rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--rojo);
+  cursor: pointer;
+}
+.teoria__clave:has(input:disabled) { color: var(--gris-claro); cursor: default; }
+.teoria input[type='checkbox'],
+.teoria input[type='radio'] { accent-color: var(--rojo); }
+.teoria__error:empty { display: none; }
+.teoria__error { margin: 0; font-family: var(--f-maquina); font-size: .9rem; color: var(--rojo-vivo); }
+.teoria__presentar { justify-self: start; }
+
+.teorias-previas { margin-bottom: 16px; }
+.teorias-previas ol { margin: 0; padding-left: 18px; font-size: .88rem; line-height: 1.6; }
+.teorias-previas__fecha { font-family: var(--f-mono); font-size: .66rem; color: var(--gris); margin-right: 6px; }
+.teorias-previas em { font-style: normal; font-family: var(--f-mono); font-size: .6rem; letter-spacing: .12em; text-transform: uppercase; color: var(--rojo-vivo); margin-left: 6px; }
+.teorias-previas__item--aceptada em { color: var(--tinta); }
+
+.teoria-cerrada { display: grid; justify-items: center; gap: 14px; margin-top: 10px; text-align: center; }
+.teoria-cerrada__sello { --giro-sello: -6deg; }
+.teoria-cerrada__texto { margin: 0; font-family: var(--f-maquina); }
+.teoria-cerrada .teorias-previas { justify-self: stretch; text-align: left; }
+
+/* ===================== Capa de presentación ===================== */
+.presentacion {
+  width: 100vw;
+  max-width: none;
+  height: 100vh;
+  max-height: none;
+  margin: 0;
+  padding: 24px 16px;
+  overflow: auto;
+  color: var(--fosforo);
+  background: rgba(0, 0, 0, .94);
+  border: 0;
+}
+.presentacion[open] { display: grid; place-items: center; }
+.presentacion::backdrop { background: rgba(0, 0, 0, .6); }
+
+/* Acusación formal */
+.acusacion {
+  width: min(520px, 100%);
+  padding: 26px 28px 22px;
+  animation: sacar-hoja .5s var(--curva-papel) both;
+}
+.acusacion__formulario {
+  margin: 0;
+  padding-bottom: 8px;
+  font-family: var(--f-mono);
+  font-size: .62rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--gris);
+  border-bottom: 2px solid var(--tinta);
+}
+.acusacion__titulo { margin: 16px 0 14px; font-family: var(--f-maquina); font-weight: 400; font-size: 1.4rem; text-transform: uppercase; }
+.acusacion__aviso { margin: 16px 0 0; font-family: var(--f-maquina); font-size: .9rem; color: var(--rojo); }
+.acusacion__acciones { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+
+/* Secuencia: PRESENTANDO INVESTIGACIÓN… */
+.secuencia {
+  display: grid;
+  gap: 14px;
+  width: min(560px, 100%);
+  font-family: var(--f-mono);
+  font-size: clamp(.85rem, 2.2vw, 1.05rem);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+.secuencia__paso { display: flex; align-items: baseline; gap: 12px; margin: 0; }
+.secuencia__puntos::after {
+  content: '';
+  display: inline-block;
+  width: .55em;
+  height: .95em;
+  background: currentColor;
+  animation: parpadeo 1s steps(1) infinite;
+}
+.secuencia__paso--hecho { color: var(--fosforo-tenue); }
+.secuencia__paso--hecho .secuencia__puntos::after {
+  content: 'OK';
+  width: auto;
+  height: auto;
+  background: none;
+  animation: none;
+  color: var(--fosforo);
+}
+.secuencia__error { margin: 10px 0 0; color: #d04545; letter-spacing: .1em; }
+.secuencia .boton-terminal { justify-self: start; }
+
+/* Informe de cierre */
+.informe {
+  display: grid;
+  gap: 18px;
+  justify-items: center;
+  width: min(620px, 100%);
+  padding: 20px 0;
+}
+.informe__hoja {
+  position: relative;
+  width: 100%;
+  padding: 28px 30px 26px;
+  animation: sacar-hoja .6s var(--curva-papel) both;
+}
+.informe__sello {
+  position: absolute;
+  top: 26px;
+  right: 22px;
+  --giro-sello: -12deg;
+  opacity: 0;
+}
+.informe__sello.sello--estampar { opacity: .82; }
+.informe__cabecera {
+  margin: 0;
+  padding-bottom: 8px;
+  font-family: var(--f-mono);
+  font-size: .64rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--gris);
+  border-bottom: 2px solid var(--tinta);
+}
+.informe__titulo {
+  margin: 18px 0 16px;
+  font-family: var(--f-serif);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 5vw, 2.3rem);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.informe__datos { font-size: .98rem; }
+.informe__datos dd { min-height: 1.4em; }
+.informe__estado {
+  min-height: 1.4em;
+  margin: 18px 0 0;
+  font-family: var(--f-mono);
+  font-size: .74rem;
+  font-weight: 600;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+}
+.informe__solucion {
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(31, 27, 22, .4);
+  animation: sacar-hoja .5s 1s var(--curva-papel) both;
+}
+.informe__rotulo {
+  margin: 0 0 8px;
+  font-family: var(--f-mono);
+  font-size: .62rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--gris);
+}
+.informe__explicacion { margin: 10px 0 0; font-family: var(--f-maquina); font-size: .92rem; line-height: 1.6; }
+.informe__logros { display: grid; gap: 10px; width: 100%; }
+.informe__acciones { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+
+/* Logro desbloqueado */
+.logro {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  color: var(--papel-claro);
+  background: rgba(220, 204, 166, .08);
+  border: 1px solid rgba(220, 204, 166, .25);
+  animation: sacar-hoja .5s var(--curva-papel) both;
+}
+.logro__medalla {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 46px;
+  height: 46px;
+  font-size: 1.3rem;
+  color: #5a3d10;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f2d58a, #c79a3e 55%, #8a6420);
+  box-shadow: 0 0 18px rgba(242, 213, 138, .35), inset 0 0 0 4px rgba(255, 240, 200, .35);
+  animation: estampar .5s var(--curva-golpe) both;
+  --giro-sello: 0deg;
+}
+.logro__rotulo { margin: 0; font-family: var(--f-mono); font-size: .6rem; letter-spacing: .24em; text-transform: uppercase; color: #d04545; }
+.logro__nombre { margin: 2px 0; font-family: var(--f-serif); font-size: 1.1rem; letter-spacing: .08em; text-transform: uppercase; }
+.logro__descripcion { margin: 0; font-family: var(--f-maquina); font-size: .86rem; color: var(--fosforo-tenue); }
+
+/* Teoría rechazada */
+.rechazo {
+  display: grid;
+  gap: 14px;
+  justify-items: center;
+  width: min(520px, 100%);
+  text-align: center;
+}
+.rechazo .sello { --giro-sello: -8deg; }
+.rechazo__texto { margin: 10px 0 0; font-family: var(--f-maquina); font-size: 1.05rem; color: var(--papel-claro); }
+.rechazo__datos { margin: 0; font-family: var(--f-mono); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; }
+.rechazo__datos b { color: var(--papel-claro); }
+.rechazo__consejo { margin: 0; font-family: var(--f-mano); font-size: 1.4rem; color: var(--fosforo-tenue); }
+
+@media (max-width: 560px) {
+  .acusacion, .informe__hoja { padding: 22px 18px; }
+  .informe__sello { position: static; display: inline-block; margin-bottom: 8px; }
+  .teoria__evidencia { flex-wrap: wrap; }
+}
